@@ -1,0 +1,15 @@
+plugins {
+    id "application"
+}
+
+dependencies {
+
+}
+
+ext {
+    javaMainClass = "net.chmilevfa.templates.base.TemplateApplication"
+}
+
+application {
+    mainClassName = javaMainClass
+}

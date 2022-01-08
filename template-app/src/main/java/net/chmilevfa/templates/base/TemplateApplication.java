@@ -1,6 +1,7 @@
 package net.chmilevfa.templates.base;
 
-import io.javalin.Javalin;
+import net.chmilevfa.templates.base.config.TemplateConfig;
+import net.chmilevfa.templates.base.module.ServerModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,24 +13,37 @@ public class TemplateApplication {
 
     private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    private static Javalin server;
+    public final TemplateConfig config;
+    public final ServerModule serverModule;
+
+    public TemplateApplication(TemplateConfig config) {
+        this.config = config;
+
+        LOG.info("Initializing http resources...");
+        this.serverModule = new ServerModule(config);
+    }
 
     public static void main(String[] args) {
+        // TODO parse config from file
+        new TemplateApplication(new TemplateConfig()).start();
+    }
+
+    public void start() {
         LOG.info("Starting the application...");
 
-        server = Javalin.create().start(7000);
-        server.get("/", ctx -> ctx.result("Hello World!"));
-
+        serverModule.start();
         registerShutdownHook();
 
         LOG.info("Application successfully started");
-
     }
 
-    private static void registerShutdownHook() {
+    private void registerShutdownHook() {
         getRuntime().addShutdownHook(new Thread(() -> {
             LOG.info("Stopping the application");
-            server.close();
+
+            serverModule.stop();
+
+            LOG.info("Application stopped");
         }));
     }
 }

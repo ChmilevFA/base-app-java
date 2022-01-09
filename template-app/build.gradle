@@ -1,6 +1,13 @@
 plugins {
     id "application"
+    id 'org.unbroken-dome.test-sets' version '4.0.0'
 }
+
+testSets {
+    testFunctional
+}
+check.dependsOn testFunctional
+testFunctional.mustRunAfter test
 
 dependencies {
     implementation 'io.javalin:javalin:4.2.0'

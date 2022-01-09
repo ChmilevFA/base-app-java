@@ -12,7 +12,7 @@ public class TemplateResource implements Resource {
     public EndpointGroup routes() {
         return () -> path("/", () -> {
             get(ctx -> ctx.result("Hello World!"));
-            post(ctx -> ctx.result("Hello World from post!"));
+            post(ctx -> ctx.result("Hello World from post! Body: " + ctx.body()));
         });
     }
 }

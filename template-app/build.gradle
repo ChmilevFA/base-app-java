@@ -21,3 +21,5 @@ ext {
 application {
     mainClassName = javaMainClass
 }
+
+jar.enabled = false

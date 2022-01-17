@@ -24,6 +24,7 @@ hs_err_pid*
 *.iml
 .project
 .idea
+.vscode
 .gradle
 generated
 **/build

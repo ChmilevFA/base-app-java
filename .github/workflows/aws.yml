@@ -1,8 +1,10 @@
 name: Deploy template-app to AWS
 
 on:
+  pull_request:
+    branches: [ main ]
   # workflow_run:
-  #   workflows: ["Java CI"]
+  #   workflows: ["Java build"]
   #   types:
   #     - completed
 

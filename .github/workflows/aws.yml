@@ -37,6 +37,13 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
+    - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: 17
+          distribution: 'adopt'
+          architecture: x64
+
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
       env:

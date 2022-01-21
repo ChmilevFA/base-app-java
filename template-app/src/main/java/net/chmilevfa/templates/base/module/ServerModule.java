@@ -1,7 +1,9 @@
 package net.chmilevfa.templates.base.module;
 
 import io.javalin.Javalin;
+import io.javalin.core.validation.JavalinValidation;
 import net.chmilevfa.templates.base.config.TemplateConfig;
+import net.chmilevfa.templates.base.http.ArticleResource;
 import net.chmilevfa.templates.base.http.HealthcheckResource;
 import net.chmilevfa.templates.base.http.Resource;
 import net.chmilevfa.templates.base.http.TemplateResource;
@@ -10,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.invoke.MethodHandles;
 import java.util.Set;
+import java.util.UUID;
 
 public class ServerModule {
 
@@ -21,6 +24,7 @@ public class ServerModule {
     public ServerModule(TemplateConfig config) {
         this.config = config;
         this.server = Javalin.create();
+        JavalinValidation.register(UUID.class, UUID::fromString);
     }
 
     public void start() {
@@ -46,7 +50,8 @@ public class ServerModule {
     private Set<Resource> getResources() {
         return Set.of(
             new HealthcheckResource(),
-            new TemplateResource()
+            new TemplateResource(),
+            new ArticleResource()
         );
     }
 

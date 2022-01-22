@@ -11,6 +11,8 @@ on:
 
 env:
   ECR_REPOSITORY: template_app_java
+  ECS_CLUSTER: ecs-template_app_java
+  ECS_SERVICE: template_app_java-service
 
 jobs:
   deploy:
@@ -53,3 +55,4 @@ jobs:
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+        aws ecs update-service --cluster $ECS_CLUSTER --service $ECS_SERVICE --force-new-deployment --region ${{ secrets.AWS_REGION }}

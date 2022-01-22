@@ -1,6 +1,7 @@
 package net.chmilevfa.templates.base.module;
 
 import io.javalin.Javalin;
+import io.javalin.core.JavalinConfig;
 import io.javalin.core.validation.JavalinValidation;
 import net.chmilevfa.templates.base.config.TemplateConfig;
 import net.chmilevfa.templates.base.http.ArticleResource;
@@ -23,7 +24,7 @@ public class ServerModule {
 
     public ServerModule(TemplateConfig config) {
         this.config = config;
-        this.server = Javalin.create();
+        this.server = Javalin.create(JavalinConfig::enableCorsForAllOrigins);
         JavalinValidation.register(UUID.class, UUID::fromString);
     }
 

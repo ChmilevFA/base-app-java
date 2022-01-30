@@ -16,7 +16,7 @@ public class FunctionalSpec {
 
     static  {
         final var config = new TemplateConfig();
-        serverUri = URI.create("http://localhost:" + config.port);
+        serverUri = URI.create("http://localhost:" + config.applicationPort);
 
         final var application = new TemplateApplication(config);
         application.start();

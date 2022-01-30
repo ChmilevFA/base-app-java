@@ -29,7 +29,7 @@ public class ServerModule {
     }
 
     public void start() {
-        final var port = config.port;
+        final var port = config.applicationPort;
         LOG.info("Starting HTTP server on port [{}] ...", port);
 
         registerResources();

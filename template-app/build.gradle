@@ -11,6 +11,8 @@ check.dependsOn testFunctional
 testFunctional.mustRunAfter test
 
 dependencies {
+    implementation project(":repository-schema")
+
     implementation 'io.javalin:javalin:4.2.0'
 }
 

@@ -2,6 +2,7 @@ package net.chmilevfa.templates.base;
 
 import net.chmilevfa.templates.base.config.TemplateConfig;
 import net.chmilevfa.templates.base.module.ServerModule;
+import net.chmilevfa.templates.base.repository.DatabaseMigrator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,8 +19,6 @@ public class TemplateApplication {
 
     public TemplateApplication(TemplateConfig config) {
         this.config = config;
-
-        LOG.info("Initializing http resources...");
         this.serverModule = new ServerModule(config);
     }
 
@@ -31,6 +30,7 @@ public class TemplateApplication {
     public void start() {
         LOG.info("Starting the application...");
 
+        DatabaseMigrator.migrate(config.ddlDbConfig.url, config.ddlDbConfig.user, config.ddlDbConfig.password);
         serverModule.start();
         registerShutdownHook();
 

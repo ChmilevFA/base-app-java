@@ -9,4 +9,9 @@ public class TemplateConfig {
         applicationPort = 7000;
         ddlDbConfig = new DatabaseConfig("jdbc:postgresql://localhost:5433/template", "ddl-template", "password");
     }
+
+    public TemplateConfig(int applicationPort, DatabaseConfig ddlDbConfig) {
+        this.applicationPort = applicationPort;
+        this.ddlDbConfig = ddlDbConfig;
+    }
 }

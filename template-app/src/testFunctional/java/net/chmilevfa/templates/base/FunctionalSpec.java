@@ -1,6 +1,8 @@
 package net.chmilevfa.templates.base;
 
+import net.chmilevfa.templates.base.config.DatabaseConfig;
 import net.chmilevfa.templates.base.config.TemplateConfig;
+import org.testcontainers.containers.PostgreSQLContainer;
 
 import java.io.IOException;
 import java.net.URI;
@@ -12,10 +14,19 @@ import static java.net.http.HttpResponse.BodyHandlers.ofString;
 
 public class FunctionalSpec {
 
+    private static final String POSTGRES_IMAGE = "postgres:14";
+    private static final int APPLICATION_PORT = 7070;
+
     protected static final URI serverUri;
 
-    static  {
-        final var config = new TemplateConfig();
+    static {
+        final var dbContainer = new PostgreSQLContainer<>(POSTGRES_IMAGE);
+        dbContainer.start();
+
+        final var config = new TemplateConfig(
+            APPLICATION_PORT,
+            new DatabaseConfig(dbContainer.getJdbcUrl(), dbContainer.getUsername(), dbContainer.getPassword()));
+
         serverUri = URI.create("http://localhost:" + config.applicationPort);
 
         final var application = new TemplateApplication(config);

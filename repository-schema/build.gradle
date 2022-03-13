@@ -1,4 +1,49 @@
+plugins {
+    id 'nu.studer.jooq' version '7.1.1'
+    id 'java'
+}
+
 dependencies {
     implementation group: 'org.flywaydb', name: 'flyway-core', version: '8.4.3'
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.3.1'
+    implementation group: 'org.jooq', name: 'jooq', version: '3.16.4'
+
+    jooqGenerator "com.github.sabomichal:jooq-meta-postgres-flyway:1.0.6"
+}
+
+jooq {
+    configurations {
+        main {
+            generateSchemaSourceOnCompilation = true
+            generationTool {
+                generator {
+                    database {
+                        name = "com.github.sabomichal.jooq.PostgresDDLDatabase"
+                        inputSchema = "public"
+                        includes = "public.*"
+                        excludes = "flyway_schema_history"
+                        recordTimestampFields = "UPDATED_DATE"
+                        properties {
+                            property {
+                                key = "locations"
+                                value = "src/main/resources/net/chmilevfa/templates/base/db/migration"
+                            }
+                            property {
+                                key = "dockerImage"
+                                value = "postgres:14"
+                            }
+                        }
+                    }
+                    target {
+                        packageName = 'net.chmilevfa.templates.base.db.schema'
+                        directory = 'src/generated/java'
+                    }
+                }
+            }
+        }
+    }
+}
+
+clean {
+    delete file('src/generated/java')
 }

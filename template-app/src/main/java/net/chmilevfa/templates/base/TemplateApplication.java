@@ -3,6 +3,7 @@ package net.chmilevfa.templates.base;
 import net.chmilevfa.templates.base.config.TemplateConfig;
 import net.chmilevfa.templates.base.module.ServerModule;
 import net.chmilevfa.templates.base.repository.DatabaseMigrator;
+import net.chmilevfa.templates.base.repository.TemplateRepositories;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,11 +16,13 @@ public class TemplateApplication {
     private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     public final TemplateConfig config;
+    public final TemplateRepositories repositories;
     public final ServerModule serverModule;
 
     public TemplateApplication(TemplateConfig config) {
         this.config = config;
-        this.serverModule = new ServerModule(config);
+        this.repositories = new TemplateRepositories(config.ddlDbConfig);
+        this.serverModule = new ServerModule(config, repositories);
     }
 
     public static void main(String[] args) {

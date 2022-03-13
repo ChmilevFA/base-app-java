@@ -8,6 +8,7 @@ import net.chmilevfa.templates.base.http.ArticleResource;
 import net.chmilevfa.templates.base.http.HealthcheckResource;
 import net.chmilevfa.templates.base.http.Resource;
 import net.chmilevfa.templates.base.http.TemplateResource;
+import net.chmilevfa.templates.base.repository.TemplateRepositories;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,10 +22,12 @@ public class ServerModule {
 
     private final TemplateConfig config;
     private final Javalin server;
+    private final TemplateRepositories repositories;
 
-    public ServerModule(TemplateConfig config) {
+    public ServerModule(TemplateConfig config, TemplateRepositories repositories) {
         this.config = config;
         this.server = Javalin.create(JavalinConfig::enableCorsForAllOrigins);
+        this.repositories = repositories;
         JavalinValidation.register(UUID.class, UUID::fromString);
     }
 
@@ -52,7 +55,7 @@ public class ServerModule {
         return Set.of(
             new HealthcheckResource(),
             new TemplateResource(),
-            new ArticleResource()
+            new ArticleResource(repositories.articleRepository)
         );
     }
 

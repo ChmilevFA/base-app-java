@@ -7,14 +7,13 @@ import java.util.Objects;
 import java.util.UUID;
 
 @JsonDeserialize(builder = Article.Builder.class)
-public class Article {
+public class Article extends Entity<Article, UUID, Article.Builder> {
 
-    public final UUID id;
     public final String title;
     public final String body;
 
     public Article(Builder builder) {
-        this.id = builder.id;
+        super(builder);
         this.title = builder.title;
         this.body = builder.body;
     }
@@ -24,28 +23,22 @@ public class Article {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Article article = (Article) o;
-        return Objects.equals(id, article.id) && Objects.equals(title, article.title) && Objects.equals(body, article.body);
+        return Objects.equals(title, article.title) && Objects.equals(body, article.body);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, body);
+        return Objects.hash(title, body);
     }
 
     @JsonPOJOBuilder(withPrefix = "")
-    public static final class Builder {
+    public static final class Builder extends Entity.Builder<Article, UUID, Builder> {
 
-        UUID id;
-        String title;
-        String body;
+        private String title;
+        private String body;
 
         public static Builder article() {
             return new Builder();
-        }
-
-        public Builder id(UUID id) {
-            this.id = id;
-            return this;
         }
 
         public Builder title(String title) {

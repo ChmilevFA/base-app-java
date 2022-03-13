@@ -1,7 +1,6 @@
 package net.chmilevfa.templates.base.http;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import net.chmilevfa.templates.base.FunctionalSpec;
 import net.chmilevfa.templates.base.model.Article;
 import org.junit.jupiter.api.Test;
@@ -17,11 +16,10 @@ import static java.net.HttpURLConnection.HTTP_OK;
 import static java.net.http.HttpRequest.BodyPublishers.ofString;
 import static java.util.UUID.randomUUID;
 import static net.chmilevfa.templates.base.model.Article.Builder.article;
+import static net.chmilevfa.templates.base.utils.JsonUtils.OBJECT_MAPPER;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ArticleResourceSpec extends FunctionalSpec {
-
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     @Test
     void should_create_article() {

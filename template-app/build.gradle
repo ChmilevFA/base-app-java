@@ -13,7 +13,9 @@ testFunctional.mustRunAfter test
 dependencies {
     implementation project(":repository-schema")
 
-    implementation 'io.javalin:javalin:4.2.0'
+    implementation group: 'io.javalin', name: 'javalin', version: '4.2.0'
+    implementation group: 'org.jooq', name: 'jooq', version: '3.16.4'
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.3.1'
 
     testImplementation group: 'org.testcontainers', name: 'postgresql', version: '1.16.3'
 }

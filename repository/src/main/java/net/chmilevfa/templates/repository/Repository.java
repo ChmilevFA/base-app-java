@@ -1,4 +1,4 @@
-package net.chmilevfa.templates.base.repository;
+package net.chmilevfa.templates.repository;
 
 import java.util.List;
 

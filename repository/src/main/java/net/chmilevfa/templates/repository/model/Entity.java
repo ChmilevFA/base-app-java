@@ -1,4 +1,4 @@
-package net.chmilevfa.templates.base.model;
+package net.chmilevfa.templates.repository.model;
 
 import java.time.Clock;
 import java.time.LocalDateTime;

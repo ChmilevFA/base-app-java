@@ -2,6 +2,7 @@ package net.chmilevfa.templates.base.repository;
 
 import net.chmilevfa.templates.base.db.schema.tables.records.ArticlesRecord;
 import net.chmilevfa.templates.base.model.Article;
+import net.chmilevfa.templates.repository.SimpleJooqRepository;
 
 import javax.sql.DataSource;
 import java.util.UUID;

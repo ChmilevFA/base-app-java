@@ -2,6 +2,7 @@ package net.chmilevfa.templates.base.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import net.chmilevfa.templates.repository.model.Entity;
 
 import java.util.Objects;
 import java.util.UUID;

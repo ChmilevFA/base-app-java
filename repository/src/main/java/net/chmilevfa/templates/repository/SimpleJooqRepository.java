@@ -1,6 +1,7 @@
-package net.chmilevfa.templates.base.repository;
+package net.chmilevfa.templates.repository;
 
-import net.chmilevfa.templates.base.model.Entity;
+import net.chmilevfa.templates.repository.exception.NotFoundException;
+import net.chmilevfa.templates.repository.model.Entity;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.SQLDialect;

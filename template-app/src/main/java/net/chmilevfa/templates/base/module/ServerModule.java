@@ -1,8 +1,8 @@
 package net.chmilevfa.templates.base.module;
 
 import io.javalin.Javalin;
-import io.javalin.core.JavalinConfig;
-import io.javalin.core.validation.JavalinValidation;
+import io.javalin.plugin.bundled.CorsPluginConfig;
+import io.javalin.validation.JavalinValidation;
 import net.chmilevfa.templates.base.config.TemplateConfig;
 import net.chmilevfa.templates.base.http.ArticleResource;
 import net.chmilevfa.templates.base.http.HealthcheckResource;
@@ -26,7 +26,9 @@ public class ServerModule {
 
     public ServerModule(TemplateConfig config, TemplateRepositories repositories) {
         this.config = config;
-        this.server = Javalin.create(JavalinConfig::enableCorsForAllOrigins);
+        this.server = Javalin.create(javalinConfig ->
+            javalinConfig.plugins.enableCors(cors ->
+                cors.add(CorsPluginConfig::anyHost)));
         this.repositories = repositories;
         JavalinValidation.register(UUID.class, UUID::fromString);
     }

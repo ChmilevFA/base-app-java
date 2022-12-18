@@ -1,7 +1,7 @@
 plugins {
     id "application"
-    id 'org.unbroken-dome.test-sets' version '4.0.0'
-    id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'org.unbroken-dome.test-sets' version "$testSetsVersion"
+    id 'com.github.johnrengelman.shadow' version "$shadowJar"
 }
 
 testSets {
@@ -14,10 +14,11 @@ dependencies {
     implementation project(":repository-schema")
     implementation project(":repository")
 
-    implementation group: 'io.javalin', name: 'javalin', version: '4.2.0'
-    implementation group: 'org.postgresql', name: 'postgresql', version: '42.3.1'
+    implementation "io.javalin:javalin:$javalinVersion"
 
-    testImplementation group: 'org.testcontainers', name: 'postgresql', version: '1.16.3'
+    // TODO should be testImplementation after refactoring of repositories
+    implementation "org.postgresql:postgresql:$postgresqlVersion"
+    testImplementation "org.testcontainers:postgresql:$testcontainersVersion"
 }
 
 ext {

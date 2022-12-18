@@ -4,7 +4,7 @@ import io.javalin.apibuilder.EndpointGroup;
 
 import static io.javalin.apibuilder.ApiBuilder.get;
 import static io.javalin.apibuilder.ApiBuilder.path;
-import static io.javalin.http.HttpCode.OK;
+import static io.javalin.http.HttpStatus.OK;
 
 public class HealthcheckResource implements Resource {
 

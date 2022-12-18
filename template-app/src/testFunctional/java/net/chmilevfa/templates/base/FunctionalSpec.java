@@ -14,7 +14,7 @@ import static java.net.http.HttpResponse.BodyHandlers.ofString;
 
 public class FunctionalSpec {
 
-    private static final String POSTGRES_IMAGE = "postgres:14";
+    private static final String POSTGRES_IMAGE = "postgres:15";
     private static final int APPLICATION_PORT = 7070;
 
     protected static final URI serverUri;

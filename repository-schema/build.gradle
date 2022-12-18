@@ -1,14 +1,14 @@
 plugins {
-    id 'nu.studer.jooq' version '7.1.1'
+    id 'nu.studer.jooq' version "$jooqPluginVersion"
     id 'java'
 }
 
 dependencies {
-    implementation group: 'org.flywaydb', name: 'flyway-core', version: '8.4.3'
-    implementation group: 'org.postgresql', name: 'postgresql', version: '42.3.1'
-    implementation group: 'org.jooq', name: 'jooq', version: '3.16.4'
+    implementation "org.flywaydb:flyway-core:$flywayVersion"
+    implementation "org.postgresql:postgresql:$postgresqlVersion"
+    implementation "org.jooq:jooq:$jooqVersion"
 
-    jooqGenerator "com.github.sabomichal:jooq-meta-postgres-flyway:1.0.6"
+    jooqGenerator "com.github.sabomichal:jooq-meta-postgres-flyway:$jooqMetaPostgresFlywayVersion"
 }
 
 jooq {
@@ -30,7 +30,7 @@ jooq {
                             }
                             property {
                                 key = "dockerImage"
-                                value = "postgres:14"
+                                value = "postgres:15"
                             }
                         }
                     }

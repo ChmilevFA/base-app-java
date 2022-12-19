@@ -18,7 +18,7 @@ import static io.javalin.http.HttpStatus.CREATED;
 import static io.javalin.http.HttpStatus.NOT_FOUND;
 import static java.util.UUID.randomUUID;
 import static net.chmilevfa.templates.base.model.Article.Builder.article;
-import static net.chmilevfa.templates.base.utils.JsonUtils.OBJECT_MAPPER;
+import static net.chmilevfa.templates.base.utils.Json.OBJECT_MAPPER;
 
 public class ArticleResource implements Resource {
 

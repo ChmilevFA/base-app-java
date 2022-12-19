@@ -18,6 +18,7 @@ dependencies {
 
     // TODO should be testImplementation after refactoring of repositories
     implementation "org.postgresql:postgresql:$postgresqlVersion"
+    testImplementation "org.apache.httpcomponents:httpclient:$apacheHttpClientVersion"
     testImplementation "org.testcontainers:postgresql:$testcontainersVersion"
 }
 

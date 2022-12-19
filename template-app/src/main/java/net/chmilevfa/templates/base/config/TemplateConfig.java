@@ -1,16 +1,15 @@
 package net.chmilevfa.templates.base.config;
 
-// TODO: deserialize from file config
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class TemplateConfig {
     public final int applicationPort;
     public final DatabaseConfig ddlDbConfig;
 
-    public TemplateConfig() {
-        applicationPort = 7000;
-        ddlDbConfig = new DatabaseConfig("jdbc:postgresql://localhost:5433/template", "ddl-template", "password");
-    }
-
-    public TemplateConfig(int applicationPort, DatabaseConfig ddlDbConfig) {
+    @JsonCreator
+    public TemplateConfig(@JsonProperty("port") int applicationPort,
+                          @JsonProperty("database") DatabaseConfig ddlDbConfig) {
         this.applicationPort = applicationPort;
         this.ddlDbConfig = ddlDbConfig;
     }

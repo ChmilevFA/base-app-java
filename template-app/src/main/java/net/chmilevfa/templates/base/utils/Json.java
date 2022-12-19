@@ -8,7 +8,7 @@ import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Json {
+public final class Json {
 
     public final static ObjectMapper OBJECT_MAPPER = new ObjectMapper()
         .findAndRegisterModules();

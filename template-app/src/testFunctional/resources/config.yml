@@ -1,0 +1,6 @@
+port: 7000
+
+database:
+  url: "jdbc:postgresql://localhost:5433/template"
+  user: "ddl-template"
+  password: "password"

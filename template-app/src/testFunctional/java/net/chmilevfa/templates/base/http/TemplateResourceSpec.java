@@ -19,7 +19,7 @@ public class TemplateResourceSpec extends FunctionalSpec {
         final var request = new HttpGet(serverUri.resolve("/"));
 
         // when
-        final var response = httpClient.execute(request);
+        final var response = httpClient().execute(request);
 
         // then
         assertThat(response.getStatusLine().getStatusCode()).isEqualTo(HTTP_OK);
@@ -34,7 +34,7 @@ public class TemplateResourceSpec extends FunctionalSpec {
         request.setEntity(new StringEntity(requestBody));
 
         // when
-        final var response = httpClient.execute(request);
+        final var response = httpClient().execute(request);
 
         // then
         assertThat(response.getStatusLine().getStatusCode()).isEqualTo(HTTP_OK);

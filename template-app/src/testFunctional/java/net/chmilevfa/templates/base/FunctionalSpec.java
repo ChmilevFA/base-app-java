@@ -14,7 +14,6 @@ public class FunctionalSpec {
     private static final int APPLICATION_PORT = 7070;
 
     protected static final URI serverUri;
-    protected static final HttpClient httpClient;
 
     static {
         final var dbContainer = new PostgreSQLContainer<>(POSTGRES_IMAGE);
@@ -25,9 +24,12 @@ public class FunctionalSpec {
             new DatabaseConfig(dbContainer.getJdbcUrl(), dbContainer.getUsername(), dbContainer.getPassword()));
 
         serverUri = URI.create("http://localhost:" + config.applicationPort);
-        httpClient = HttpClientBuilder.create().build();
 
         final var application = new TemplateApplication(config);
         application.start();
+    }
+
+    protected static HttpClient httpClient() {
+        return HttpClientBuilder.create().build();
     }
 }

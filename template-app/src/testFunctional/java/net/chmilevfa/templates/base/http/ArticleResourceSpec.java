@@ -33,7 +33,7 @@ public class ArticleResourceSpec extends FunctionalSpec {
         request.setEntity(new StringEntity(requestBody));
 
         // when
-        final var response = httpClient.execute(request);
+        final var response = httpClient().execute(request);
 
         // then
         assertThat(response.getStatusLine().getStatusCode()).isEqualTo(HTTP_CREATED);
@@ -46,7 +46,7 @@ public class ArticleResourceSpec extends FunctionalSpec {
         final var request = new HttpGet(serverUri.resolve("/articles/" + randomUUID()));
 
         // when
-        final var response = httpClient.execute(request);
+        final var response = httpClient().execute(request);
 
         // then
         assertThat(response.getStatusLine().getStatusCode()).isEqualTo(HTTP_NOT_FOUND);
@@ -59,7 +59,7 @@ public class ArticleResourceSpec extends FunctionalSpec {
         final var createRequest = new HttpPost(serverUri.resolve("/articles"));
         createRequest.setEntity(new StringEntity(createRequestBody));
 
-        final var createResponse = httpClient.execute(createRequest);
+        final var createResponse = httpClient().execute(createRequest);
         final var id = UUID.fromString(EntityUtils.toString(createResponse.getEntity()));
         final var expectedArticle = article()
             .id(id)
@@ -70,7 +70,7 @@ public class ArticleResourceSpec extends FunctionalSpec {
         final var request = new HttpGet(serverUri.resolve("/articles/" + id));
 
         // when
-        final var response = httpClient.execute(request);
+        final var response = httpClient().execute(request);
 
         // then
         final var actualArticle = Json.parse(EntityUtils.toString(response.getEntity()), Article.class);
@@ -85,7 +85,7 @@ public class ArticleResourceSpec extends FunctionalSpec {
         final var createRequest1 = new HttpPost(serverUri.resolve("/articles"));
         createRequest1.setEntity(new StringEntity(createRequestBody1));
 
-        final var createResponse1 = httpClient.execute(createRequest1);
+        final var createResponse1 = httpClient().execute(createRequest1);
         final var id1 = UUID.fromString(EntityUtils.toString(createResponse1.getEntity()));
         final var expectedArticle1 = article()
             .id(id1)
@@ -97,7 +97,7 @@ public class ArticleResourceSpec extends FunctionalSpec {
         final var createRequest2 = new HttpPost(serverUri.resolve("/articles"));
         createRequest2.setEntity(new StringEntity(createRequestBody2));
 
-        final var createResponse2 = httpClient.execute(createRequest2);
+        final var createResponse2 = httpClient().execute(createRequest2);
         final var id2 = UUID.fromString(EntityUtils.toString(createResponse2.getEntity()));
         final var expectedArticle2 = article()
             .id(id2)
@@ -110,7 +110,7 @@ public class ArticleResourceSpec extends FunctionalSpec {
         final var request = new HttpGet(serverUri.resolve("/articles"));
 
         // when
-        final var response = httpClient.execute(request);
+        final var response = httpClient().execute(request);
 
         // then
         final var actualValues = Json.parseList(EntityUtils.toString(response.getEntity()), Article.class);
@@ -132,7 +132,7 @@ public class ArticleResourceSpec extends FunctionalSpec {
         request.setEntity(new StringEntity(Json.toJsonString(article)));
 
         // when
-        final var response = httpClient.execute(request);
+        final var response = httpClient().execute(request);
 
         // then
         assertThat(response.getStatusLine().getStatusCode()).isEqualTo(HTTP_NOT_FOUND);
@@ -144,7 +144,7 @@ public class ArticleResourceSpec extends FunctionalSpec {
         final var createRequest = new HttpPost(serverUri.resolve("/articles"));
         createRequest.setEntity(new StringEntity("{ \"title\": \"title text1\", \"body\": \"body text1\"}"));
 
-        final var createResponse = httpClient.execute(createRequest);
+        final var createResponse = httpClient().execute(createRequest);
         final var id = UUID.fromString(EntityUtils.toString(createResponse.getEntity()));
 
         final var articleToUpdate = article()
@@ -157,7 +157,7 @@ public class ArticleResourceSpec extends FunctionalSpec {
         request.setEntity(new StringEntity(Json.toJsonString(articleToUpdate)));
 
         // when
-        final var response = httpClient.execute(request);
+        final var response = httpClient().execute(request);
 
         // then
         assertThat(response.getStatusLine().getStatusCode()).isEqualTo(HTTP_BAD_REQUEST);
@@ -169,7 +169,7 @@ public class ArticleResourceSpec extends FunctionalSpec {
         var createRequest = new HttpPost(serverUri.resolve("/articles"));
         createRequest.setEntity(new StringEntity("{ \"title\": \"title text1\", \"body\": \"body text1\"}"));
 
-        final var createResponse = httpClient.execute(createRequest);
+        final var createResponse = httpClient().execute(createRequest);
         final var id = UUID.fromString(EntityUtils.toString(createResponse.getEntity()));
 
         final var articleToUpdate = article()
@@ -182,14 +182,14 @@ public class ArticleResourceSpec extends FunctionalSpec {
         request.setEntity(new StringEntity(Json.toJsonString(articleToUpdate)));
 
         // when
-        final var response = httpClient.execute(request);
+        final var response = httpClient().execute(request);
 
         // then
         assertThat(response.getStatusLine().getStatusCode()).isEqualTo(HTTP_OK);
         assertThat(EntityUtils.toString(response.getEntity())).isEqualTo(id.toString());
 
         final var getRequest = new HttpGet(serverUri.resolve("/articles/" + id));
-        final var getResponse = httpClient.execute(getRequest);
+        final var getResponse = httpClient().execute(getRequest);
         final var actualArticle = Json.parse(EntityUtils.toString(getResponse.getEntity()), Article.class);
         assertThat(actualArticle).isEqualTo(articleToUpdate);
     }
@@ -200,7 +200,7 @@ public class ArticleResourceSpec extends FunctionalSpec {
         final var request = new HttpDelete(serverUri.resolve("/articles" + randomUUID()));
 
         // when
-        final var response = httpClient.execute(request);
+        final var response = httpClient().execute(request);
 
         // then
         assertThat(response.getStatusLine().getStatusCode()).isEqualTo(HTTP_NOT_FOUND);
@@ -212,17 +212,17 @@ public class ArticleResourceSpec extends FunctionalSpec {
         var createRequest = new HttpPost(serverUri.resolve("/articles"));
         createRequest.setEntity(new StringEntity("{ \"title\": \"title text1\", \"body\": \"body text1\"}"));
 
-        final var createResponse = httpClient.execute(createRequest);
+        final var createResponse = httpClient().execute(createRequest);
         final var id = UUID.fromString(EntityUtils.toString(createResponse.getEntity()));
 
         final var request = new HttpDelete(serverUri.resolve("/articles/" + id));
 
         // when
-        final var response = httpClient.execute(request);
+        final var response = httpClient().execute(request);
 
         // then
         assertThat(response.getStatusLine().getStatusCode()).isEqualTo(HTTP_OK);
-        final var getResponse = httpClient.execute(new HttpGet(serverUri.resolve("/articles/" + id)));
+        final var getResponse = httpClient().execute(new HttpGet(serverUri.resolve("/articles/" + id)));
         assertThat(getResponse.getStatusLine().getStatusCode()).isEqualTo(HTTP_NOT_FOUND);
     }
 }

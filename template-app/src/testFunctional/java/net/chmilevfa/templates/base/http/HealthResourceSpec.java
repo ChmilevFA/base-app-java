@@ -17,7 +17,7 @@ public class HealthResourceSpec extends FunctionalSpec {
         final var request = new HttpGet(serverUri.resolve("/healthcheck"));
 
         // when
-        final var response = httpClient.execute(request);
+        final var response = httpClient().execute(request);
 
         // then
         assertThat(response.getStatusLine().getStatusCode()).isEqualTo(HTTP_OK);

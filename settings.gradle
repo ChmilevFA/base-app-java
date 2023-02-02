@@ -3,4 +3,5 @@ rootProject.name = 'base-app-java'
 include 'template-app'
 include 'repository-schema'
 include 'repository'
+include 'action'
 

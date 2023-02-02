@@ -35,6 +35,7 @@ public class FunctionalSpec {
         return new TemplateConfig(
             config.applicationPort,
             new DatabaseConfig(
+                dbContainer.getDriverClassName(),
                 dbContainer.getJdbcUrl(),
                 dbContainer.getUsername(),
                 dbContainer.getPassword()));

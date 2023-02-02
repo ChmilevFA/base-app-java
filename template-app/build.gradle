@@ -13,6 +13,7 @@ testFunctional.mustRunAfter test
 dependencies {
     implementation project(":repository-schema")
     implementation project(":repository")
+    implementation project(":action")
 
     implementation "io.javalin:javalin:$javalinVersion"
     implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion"

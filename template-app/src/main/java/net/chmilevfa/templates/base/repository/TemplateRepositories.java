@@ -7,10 +7,7 @@ import javax.sql.DataSource;
 
 public class TemplateRepositories {
 
-    public final ArticleRepository articleRepository;
-
     public TemplateRepositories(DatabaseConfig config) {
-        this.articleRepository = new ArticleRepository(getDataSource(config));
     }
 
     private DataSource getDataSource(DatabaseConfig config) {

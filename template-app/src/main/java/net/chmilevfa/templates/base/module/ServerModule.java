@@ -4,7 +4,6 @@ import io.javalin.Javalin;
 import io.javalin.plugin.bundled.CorsPluginConfig;
 import io.javalin.validation.JavalinValidation;
 import net.chmilevfa.templates.base.config.TemplateConfig;
-import net.chmilevfa.templates.base.http.ArticleResource;
 import net.chmilevfa.templates.base.http.HealthcheckResource;
 import net.chmilevfa.templates.base.http.Resource;
 import net.chmilevfa.templates.base.http.TemplateResource;
@@ -56,8 +55,7 @@ public class ServerModule {
     private Set<Resource> getResources() {
         return Set.of(
             new HealthcheckResource(),
-            new TemplateResource(),
-            new ArticleResource(repositories.articleRepository)
+            new TemplateResource()
         );
     }
 

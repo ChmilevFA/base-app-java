@@ -5,4 +5,7 @@ plugins {
 
 dependencies {
     api "org.jooq:jooq:$jooqVersion"
+    api "com.zaxxer:HikariCP:$hikariCPVersion"
+
+    implementation "org.apache.commons:commons-lang3:$commonsLang3Version"
 }

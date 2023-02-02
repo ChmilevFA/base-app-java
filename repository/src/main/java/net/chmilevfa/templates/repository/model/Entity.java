@@ -1,59 +1,38 @@
 package net.chmilevfa.templates.repository.model;
 
-import java.time.Clock;
-import java.time.LocalDateTime;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+
 import java.util.Objects;
 
-public abstract class Entity<E extends Entity<E, ID, B>, ID, B extends Entity.Builder<E, ID, B>> {
+import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
+
+@SuppressWarnings("unchecked")
+public abstract class Entity<E extends Entity<E, ID>, ID extends Comparable<ID>> {
 
     public final ID id;
-    public final LocalDateTime createdDate;
-    public final LocalDateTime updatedDate;
 
-    public Entity(B builder) {
-        this.id = builder.id;
-        this.createdDate = builder.createdDate;
-        this.updatedDate = builder.updatedDate == null ? builder.createdDate : builder.updatedDate;
+    protected Entity(ID id) {
+        this.id = id;
+    }
+
+    public Id<E, ID> id() {
+        return Id.id((Class<E>) this.getClass(), id);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Entity<?, ?, ?> entity = (Entity<?, ?, ?>) o;
-        return Objects.equals(id, entity.id) && Objects.equals(createdDate, entity.createdDate) && Objects.equals(updatedDate, entity.updatedDate);
+        final Entity<?, ?> entity = (Entity<?, ?>) o;
+        return Objects.equals(id, entity.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, createdDate, updatedDate);
+        return Objects.hash(id);
     }
 
-    @SuppressWarnings("unchecked")
-    public static abstract class Builder<E extends Entity<E, ID, B>, ID, B extends Builder<E, ID, B>> {
-
-        protected ID id;
-        protected LocalDateTime createdDate = LocalDateTime.now(Clock.systemUTC());
-        protected LocalDateTime updatedDate;
-
-        protected Builder() {
-        }
-
-        public B id(ID id) {
-            this.id = id;
-            return (B) this;
-        }
-
-        public B createdDate(LocalDateTime createdDate) {
-            this.createdDate = createdDate;
-            return (B) this;
-        }
-
-        public B updatedDate(LocalDateTime updatedDate) {
-            this.updatedDate = updatedDate;
-            return (B) this;
-        }
-
-        public abstract E build();
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this, SHORT_PREFIX_STYLE);
     }
 }

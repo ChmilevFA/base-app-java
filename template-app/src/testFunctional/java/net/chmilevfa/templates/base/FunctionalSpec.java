@@ -2,6 +2,7 @@ package net.chmilevfa.templates.base;
 
 import net.chmilevfa.templates.base.config.DatabaseConfig;
 import net.chmilevfa.templates.base.config.TemplateConfig;
+import net.chmilevfa.templates.base.repository.UserRepository;
 import net.chmilevfa.templates.base.utils.Yaml;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -15,6 +16,8 @@ public class FunctionalSpec {
 
     protected static final URI serverUri;
 
+    protected static final UserRepository userRepository;
+
     static {
         final var dbContainer = new PostgreSQLContainer<>(POSTGRES_IMAGE);
         dbContainer.start();
@@ -24,6 +27,8 @@ public class FunctionalSpec {
         serverUri = URI.create("http://localhost:" + config.applicationPort);
 
         final var application = new TemplateApplication(config);
+
+        userRepository = application.repositories.userRepository;
         application.start();
     }
 
@@ -35,6 +40,7 @@ public class FunctionalSpec {
         return new TemplateConfig(
             config.applicationPort,
             new DatabaseConfig(
+                dbContainer.getDriverClassName(),
                 dbContainer.getJdbcUrl(),
                 dbContainer.getUsername(),
                 dbContainer.getPassword()));

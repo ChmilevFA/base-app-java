@@ -13,13 +13,16 @@ testFunctional.mustRunAfter test
 dependencies {
     implementation project(":repository-schema")
     implementation project(":repository")
+    implementation project(":action")
 
     implementation "io.javalin:javalin:$javalinVersion"
     implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion"
 
     // TODO should be testImplementation after refactoring of repositories
-    implementation "org.postgresql:postgresql:$postgresqlVersion"
+    testImplementation "org.postgresql:postgresql:$postgresqlVersion"
     testImplementation "org.apache.httpcomponents:httpclient:$apacheHttpClientVersion"
+    testImplementation "org.apache.commons:commons-lang3:$commonsLang3Version"
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
     testImplementation "org.testcontainers:postgresql:$testcontainersVersion"
 }
 

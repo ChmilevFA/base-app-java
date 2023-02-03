@@ -3,10 +3,12 @@ package net.chmilevfa.templates.base.module;
 import io.javalin.Javalin;
 import io.javalin.plugin.bundled.CorsPluginConfig;
 import io.javalin.validation.JavalinValidation;
+import net.chmilevfa.templates.base.action.TemplateActions;
 import net.chmilevfa.templates.base.config.TemplateConfig;
 import net.chmilevfa.templates.base.http.HealthcheckResource;
 import net.chmilevfa.templates.base.http.Resource;
 import net.chmilevfa.templates.base.http.TemplateResource;
+import net.chmilevfa.templates.base.http.UserResource;
 import net.chmilevfa.templates.base.repository.TemplateRepositories;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,13 +24,15 @@ public class ServerModule {
     private final TemplateConfig config;
     private final Javalin server;
     private final TemplateRepositories repositories;
+    private final TemplateActions actions;
 
-    public ServerModule(TemplateConfig config, TemplateRepositories repositories) {
+    public ServerModule(TemplateConfig config, TemplateRepositories repositories, TemplateActions actions) {
         this.config = config;
         this.server = Javalin.create(javalinConfig ->
             javalinConfig.plugins.enableCors(cors ->
                 cors.add(CorsPluginConfig::anyHost)));
         this.repositories = repositories;
+        this.actions = actions;
         JavalinValidation.register(UUID.class, UUID::fromString);
     }
 
@@ -55,7 +59,8 @@ public class ServerModule {
     private Set<Resource> getResources() {
         return Set.of(
             new HealthcheckResource(),
-            new TemplateResource()
+            new TemplateResource(),
+            new UserResource(actions.actionFactory)
         );
     }
 

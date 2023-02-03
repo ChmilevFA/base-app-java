@@ -11,5 +11,5 @@ CREATE TABLE users
     CONSTRAINT users_pk PRIMARY KEY (id)
 );
 
-CREATE UNIQUE INDEX users_username_unique_index ON users (lower(username));
-CREATE UNIQUE INDEX users_email_unique_index ON users (email);
+CREATE UNIQUE INDEX users_username_unique_index ON users (lower(username)) WHERE state != 'DELETED';
+CREATE UNIQUE INDEX users_email_unique_index ON users (lower(email)) WHERE state != 'DELETED';

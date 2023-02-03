@@ -1,5 +1,6 @@
 package net.chmilevfa.templates.base;
 
+import net.chmilevfa.templates.base.action.TemplateActions;
 import net.chmilevfa.templates.base.config.TemplateConfig;
 import net.chmilevfa.templates.base.module.ServerModule;
 import net.chmilevfa.templates.base.repository.DatabaseMigrator;
@@ -22,12 +23,14 @@ public class TemplateApplication {
 
     public final TemplateConfig config;
     public final TemplateRepositories repositories;
+    public final TemplateActions actions;
     public final ServerModule serverModule;
 
     public TemplateApplication(TemplateConfig config) {
         this.config = config;
         this.repositories = new TemplateRepositories(config.ddlDbConfig);
-        this.serverModule = new ServerModule(config, repositories);
+        this.actions = new TemplateActions(repositories);
+        this.serverModule = new ServerModule(config, repositories, actions);
     }
 
     public static void main(String[] args) throws MalformedURLException {

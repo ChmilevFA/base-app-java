@@ -3,23 +3,30 @@ package net.chmilevfa.templates.base.repository;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import net.chmilevfa.templates.base.config.DatabaseConfig;
+import net.chmilevfa.templates.base.model.User;
+import net.chmilevfa.templates.repository.RepositoryRouter;
 import net.chmilevfa.templates.repository.connection.HikariConnectionProvider;
 import net.chmilevfa.templates.repository.connection.TransactionManager;
-import org.postgresql.ds.PGSimpleDataSource;
 
-import javax.sql.DataSource;
+import java.util.Map;
 
+import static java.util.Map.entry;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class TemplateRepositories {
 
     public final UserRepository userRepository;
+    public final RepositoryRouter repositoryRouter;
 
     public TemplateRepositories(DatabaseConfig config) {
         final var dataSourceConnectionProvider = new HikariConnectionProvider(dataSource(config));
         final var transactionManager = new TransactionManager(dataSourceConnectionProvider);
         this.userRepository = new UserRepository(transactionManager);
+
+        this.repositoryRouter = new RepositoryRouter(transactionManager, Map.ofEntries(
+            entry(User.class, userRepository)
+        ));
     }
 
     private HikariDataSource dataSource(DatabaseConfig config) {

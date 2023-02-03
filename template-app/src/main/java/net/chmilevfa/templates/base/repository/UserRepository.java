@@ -24,6 +24,14 @@ public class UserRepository extends ModelJooqRepository<User, State, UUID, Users
         super(transactionManager, USERS, fieldPrimaryKey(USERS.ID), USERS.UPDATED_DATE, USERS.STATE, DELETED);
     }
 
+    public Optional<User> findByUsername(String username) {
+        return findOneWhere(USERS.USERNAME.equalIgnoreCase(username));
+    }
+
+    public Optional<User> findByEmail(String email) {
+        return findOneWhere(USERS.EMAIL.equalIgnoreCase(email));
+    }
+
     @Override
     protected User fromRecord(UsersRecord record) {
         return user()

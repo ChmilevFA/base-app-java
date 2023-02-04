@@ -1,6 +1,7 @@
 package net.chmilevfa.templates.base.action;
 
 import net.chmilevfa.templates.base.action.UserCreateAction.Params;
+import net.chmilevfa.templates.base.model.UserTestData;
 import net.chmilevfa.templates.base.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +18,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.mock;
 
-class UserCreateActionTest {
+class UserCreateActionTest implements UserTestData {
 
     private final UserRepository userRepository = mock(UserRepository.class);
 
@@ -50,11 +51,8 @@ class UserCreateActionTest {
     void should_throw_an_exception_if_username_is_taken() {
         // given
         final var username = randomAlphanumeric(10);
-        final var user = user() //TODO use testFixtures
-            .state(ACTIVE)
+        final var user = aUser()
             .username(username)
-            .password(randomAlphanumeric(10))
-            .email(randomAlphanumeric(15))
             .build();
         given(userRepository.findByUsername(username))
             .willReturn(Optional.of(user));
@@ -72,10 +70,7 @@ class UserCreateActionTest {
     void should_throw_an_exception_if_email_is_taken() {
         // given
         final var email = randomAlphanumeric(10);
-        final var user = user() //TODO use testFixtures
-            .state(ACTIVE)
-            .username(randomAlphanumeric(15))
-            .password(randomAlphanumeric(10))
+        final var user = aUser()
             .email(email)
             .build();
         given(userRepository.findByUsername(email))

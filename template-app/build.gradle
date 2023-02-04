@@ -1,5 +1,5 @@
 plugins {
-    id "application"
+    id "java-test-fixtures"
     id 'org.unbroken-dome.test-sets' version "$testSetsVersion"
     id 'com.github.johnrengelman.shadow' version "$shadowJar"
 }
@@ -18,24 +18,25 @@ dependencies {
     implementation "io.javalin:javalin:$javalinVersion"
     implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion"
 
-    // TODO should be testImplementation after refactoring of repositories
     testImplementation "org.postgresql:postgresql:$postgresqlVersion"
     testImplementation "org.apache.httpcomponents:httpclient:$apacheHttpClientVersion"
     testImplementation "org.apache.commons:commons-lang3:$commonsLang3Version"
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
     testImplementation "org.testcontainers:postgresql:$testcontainersVersion"
+
+    testFixturesImplementation project(":repository")
+    testFixturesImplementation "org.apache.commons:commons-lang3:$commonsLang3Version"
 }
 
 ext {
     javaMainClass = "net.chmilevfa.templates.base.TemplateApplication"
 }
 
-application {
-    mainClassName = javaMainClass
-}
+shadowJar {
+    archiveBaseName.set("template-app")
+    archiveClassifier.set("")
+    archiveVersion.set("")
+    mergeServiceFiles()
 
-run {
-    systemProperties System.getProperties()
+    jar.manifest.attributes(["Main-Class": "${javaMainClass}"])
 }
-
-jar.enabled = false

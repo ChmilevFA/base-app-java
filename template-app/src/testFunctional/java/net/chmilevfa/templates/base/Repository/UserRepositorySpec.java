@@ -2,6 +2,7 @@ package net.chmilevfa.templates.base.Repository;
 
 import net.chmilevfa.templates.base.FunctionalSpec;
 import net.chmilevfa.templates.base.model.User;
+import net.chmilevfa.templates.base.model.UserTestData;
 import org.jooq.exception.DataAccessException;
 import org.junit.jupiter.api.Test;
 
@@ -15,17 +16,12 @@ import static org.apache.commons.lang3.RandomStringUtils.randomNumeric;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class UserRepositorySpec extends FunctionalSpec {
+public class UserRepositorySpec extends FunctionalSpec implements UserTestData {
 
     @Test
     void should_save_user() {
         // given
-        final var user = user()
-            .state(ACTIVE)
-            .username(randomAlphanumeric(5))
-            .password(randomAlphanumeric(10))
-            .email(randomAlphanumeric(15))
-            .build();
+        final var user = aUser().build();
 
         // when
         userRepository.add(user);
@@ -41,12 +37,7 @@ public class UserRepositorySpec extends FunctionalSpec {
     @Test
     void should_find_by_username() {
         // given
-        final var user = userRepository.add(user() //TODO use testFixtures
-            .state(ACTIVE)
-            .username(randomAlphanumeric(5))
-            .password(randomAlphanumeric(10))
-            .email(randomAlphanumeric(15))
-            .build());
+        final var user = userRepository.add(aUser().build());
 
         // when
         final var userByUsername = userRepository.findByUsername(user.username);
@@ -59,22 +50,17 @@ public class UserRepositorySpec extends FunctionalSpec {
     void should_throw_exception_if_username_already_exists_case_independent() {
         // given
         final var lowerCaseUsername = randomAlphanumeric(10).toLowerCase();
-        userRepository.add(user() //TODO use testFixtures
-            .state(ACTIVE)
+        userRepository.add(aUser()
             .username(lowerCaseUsername)
-            .password(randomAlphanumeric(10))
-            .email(randomAlphanumeric(15))
             .build());
 
         final var upperCaseUsername = lowerCaseUsername.toUpperCase();
 
         // then
-        assertThatThrownBy(() -> userRepository.add(user() //TODO use testFixtures
-            .state(ACTIVE)
+        assertThatThrownBy(() ->
+            userRepository.add(aUser()
                 .username(upperCaseUsername)
-            .password(randomAlphanumeric(10))
-            .email(randomAlphanumeric(15))
-            .build()))
+                .build()))
             .isInstanceOf(DataAccessException.class)
             .hasMessageContaining("already exists");
     }
@@ -82,12 +68,7 @@ public class UserRepositorySpec extends FunctionalSpec {
     @Test
     void should_find_by_email() {
         // given
-        final var user = userRepository.add(user() //TODO use testFixtures
-            .state(ACTIVE)
-            .username(randomAlphanumeric(5))
-            .password(randomAlphanumeric(10))
-            .email(randomAlphanumeric(15))
-            .build());
+        final var user = userRepository.add(aUser().build());
 
         // when
         final var userByEmail = userRepository.findByEmail(user.email);
@@ -100,22 +81,17 @@ public class UserRepositorySpec extends FunctionalSpec {
     void should_throw_exception_if_email_already_exists_case_independent() {
         // given
         final var lowerCaseEmail = randomAlphanumeric(10).toLowerCase();
-        userRepository.add(user() //TODO use testFixtures
-            .state(ACTIVE)
-            .username(randomAlphanumeric(10))
-            .password(randomAlphanumeric(15))
+        userRepository.add(aUser()
             .email(lowerCaseEmail)
             .build());
 
         final var upperCaseEmail = lowerCaseEmail.toUpperCase();
 
         // then
-        assertThatThrownBy(() -> userRepository.add(user() //TODO use testFixtures
-            .state(ACTIVE)
-            .username(randomAlphanumeric(10))
-            .password(randomAlphanumeric(10))
-            .email(upperCaseEmail)
-            .build()))
+        assertThatThrownBy(() ->
+            userRepository.add(aUser()
+                    .email(upperCaseEmail)
+                .build()))
             .isInstanceOf(DataAccessException.class)
             .hasMessageContaining("already exists");
     }

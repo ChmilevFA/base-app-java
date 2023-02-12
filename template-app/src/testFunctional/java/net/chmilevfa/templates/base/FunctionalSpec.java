@@ -39,6 +39,7 @@ public class FunctionalSpec {
     private static TemplateConfig withConfigOverride(TemplateConfig config, PostgreSQLContainer<?> dbContainer) {
         return new TemplateConfig(
             config.applicationPort,
+            config.enableSwaggerUI,
             new DatabaseConfig(
                 dbContainer.getDriverClassName(),
                 dbContainer.getJdbcUrl(),

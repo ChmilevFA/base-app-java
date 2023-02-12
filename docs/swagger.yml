@@ -28,7 +28,7 @@ paths:
         "500":
           $ref: "#/components/responses/InternalError"
     post:
-      summary: "Post sting to the body of the request and returns 'Hello World from post! Body: ' with the concatenated string"
+      summary: "Accepts string as the body of the request and returns 'Hello World from post! Body: ' with the concatenated string"
       tags:
         - "dummy"
       requestBody:
@@ -48,6 +48,27 @@ paths:
                 example: "Hello World from post! Body: test body"
         "500":
           $ref: "#/components/responses/InternalError"
+  /users:
+    post:
+      summary: "Creates new user"
+      tags:
+        - "user"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserCreateRequest"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserCreateResponse"
+        "500":
+          $ref: "#/components/responses/InternalError"
+
 components:
   responses:
     InternalError:
@@ -84,3 +105,29 @@ components:
           type: string
       required:
         - message
+    UserCreateRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          example: "someUsername"
+        password:
+          type: string
+          format: password
+          example: "password"
+        email:
+          type: string
+          format: email
+          example: "email@email.com"
+      required:
+        - username
+        - password
+        - email
+    UserCreateResponse:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+      required:
+        - userId

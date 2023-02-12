@@ -2,6 +2,7 @@ plugins {
     id "java-test-fixtures"
     id 'org.unbroken-dome.test-sets' version "$testSetsVersion"
     id 'com.github.johnrengelman.shadow' version "$shadowJar"
+    id "org.hidetake.swagger.generator" version "$swaggerGenerator"
 }
 
 testSets {
@@ -26,10 +27,29 @@ dependencies {
 
     testFixturesImplementation project(":repository")
     testFixturesImplementation "org.apache.commons:commons-lang3:$commonsLang3Version"
+
+    swaggerUI "org.webjars:swagger-ui:$swaggerUiVersion"
 }
 
 ext {
     javaMainClass = "net.chmilevfa.templates.base.TemplateApplication"
+}
+
+swaggerSources {
+    template {
+        inputFile = file("$rootDir/docs/swagger.yml")
+        code {
+            language = "html2"
+        }
+        ui {
+            doLast {
+                copy {
+                    from file("$rootDir/docs/index.html")
+                    into outputDir
+                }
+            }
+        }
+    }
 }
 
 shadowJar {
@@ -38,5 +58,12 @@ shadowJar {
     archiveVersion.set("")
     mergeServiceFiles()
 
+    from("$buildDir/swagger-ui-template", {
+        into("swagger-ui")
+        exclude("META-INF")
+    })
+
     jar.manifest.attributes(["Main-Class": "${javaMainClass}"])
+
+    dependsOn(generateSwaggerUI)
 }

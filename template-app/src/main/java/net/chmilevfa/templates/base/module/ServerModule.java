@@ -29,8 +29,16 @@ public class ServerModule {
     public ServerModule(TemplateConfig config, TemplateRepositories repositories, TemplateActions actions) {
         this.config = config;
         this.server = Javalin.create(javalinConfig ->
+        {
             javalinConfig.plugins.enableCors(cors ->
-                cors.add(CorsPluginConfig::anyHost)));
+                cors.add(CorsPluginConfig::anyHost));
+            if (config.enableSwaggerUI) {
+                javalinConfig.staticFiles.add(staticFileConfig -> {
+                    staticFileConfig.hostedPath = "/swagger-ui";
+                    staticFileConfig.directory = "swagger-ui";
+                });
+            }
+        });
         this.repositories = repositories;
         this.actions = actions;
         JavalinValidation.register(UUID.class, UUID::fromString);
@@ -63,5 +71,4 @@ public class ServerModule {
             new UserResource(actions.actionFactory)
         );
     }
-
 }

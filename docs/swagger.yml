@@ -1,0 +1,133 @@
+openapi: "3.0.0"
+info:
+  title: "Template API"
+  description: "Template API description"
+  version: "0.0.1"
+servers:
+  - url: "http://localhost:7000"
+    description: localhost
+tags:
+  - name: "dummy"
+    description: "dummy endpoints"
+  - name: "user"
+    description: "user related endpoints"
+paths:
+  /:
+    get:
+      summary: "Get 'Hello World!' string"
+      tags:
+        - "dummy"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Hello World!"
+        "500":
+          $ref: "#/components/responses/InternalError"
+    post:
+      summary: "Accepts string as the body of the request and returns 'Hello World from post! Body: ' with the concatenated string"
+      tags:
+        - "dummy"
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: "test body"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Hello World from post! Body: test body"
+        "500":
+          $ref: "#/components/responses/InternalError"
+  /users:
+    post:
+      summary: "Creates new user"
+      tags:
+        - "user"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserCreateRequest"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserCreateResponse"
+        "500":
+          $ref: "#/components/responses/InternalError"
+
+components:
+  responses:
+    InternalError:
+      description: "Something went wrong and there was not specific mapper for the exception"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    Unauthorized:
+      description: "Auth required endpoint was called without auth token"
+      content:
+        text/plain:
+          schema:
+            type: string
+            example: "Unauthorized"
+    Forbidden:
+      description: "User cannot perform requested action"
+      content:
+        text/plain:
+          schema:
+            type: string
+            example: "Forbidden"
+    NotFound:
+      description: "Requested entity is not found"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+        - message
+    UserCreateRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          example: "someUsername"
+        password:
+          type: string
+          format: password
+          example: "password"
+        email:
+          type: string
+          format: email
+          example: "email@email.com"
+      required:
+        - username
+        - password
+        - email
+    UserCreateResponse:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+      required:
+        - userId
